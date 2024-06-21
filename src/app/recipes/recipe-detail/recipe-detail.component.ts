@@ -17,6 +17,8 @@ export class RecipeDetailComponent implements OnInit{
               private route: ActivatedRoute) { }
   
   ngOnInit() {
+
+    //making URL works properly (if u clicked something that changes URL, your property will be changed due to the new URL)
     this.route.params
       .subscribe(
         (params: Params) => {
