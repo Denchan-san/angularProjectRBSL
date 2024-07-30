@@ -11,19 +11,13 @@ import { Subscription } from 'rxjs';
   styleUrl: './recipe-list.component.css'
 })
 export class RecipeListComponent implements OnInit, OnDestroy {
-  @Output() recipeWasSelected = new EventEmitter<Recipe>();
-
   recipes: Recipe[];
-
   subscription: Subscription;
 
   constructor(private recipeService: RecipeService,
               private router: Router,
               private route: ActivatedRoute) {
     
-  }
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
   }
 
   ngOnInit() {
@@ -32,15 +26,15 @@ export class RecipeListComponent implements OnInit, OnDestroy {
         (recipes: Recipe[]) => {
           this.recipes = recipes;
         }
-      )
+      );
     this.recipes = this.recipeService.getRecipes();
-  }
-
-  onRecipeSelected(recipe: Recipe) {  
-    this.recipeWasSelected.emit(recipe)
   }
 
   onNewRecipe() {
     this.router.navigate(['new'], {relativeTo: this.route});
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }

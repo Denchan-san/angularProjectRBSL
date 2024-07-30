@@ -9,29 +9,36 @@ import { Subject } from "rxjs";
 export class RecipeService {
     recipesChanged = new Subject<Recipe[]>();
 
-    private recipes: Recipe[] = [
-        new Recipe(
-            'Ragu',
-            'This is a simply recipe',
-            'https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg?quality=90&webp=true&resize=300,272',
-            [
-                new Ingredient('Meat', 1),
-                new Ingredient('Vegs', 20)
-            ]
-        ),
-        new Recipe(
-            'Sandwiches',
-            'This is a simply recipe 2',
-            'https://images.immediate.co.uk/production/volatile/sites/30/2024/04/MonteCristoSandwich-7cbdfe9.jpg?quality=90&webp=true&resize=300,272',
-            [
-                new Ingredient('Ham', 1),
-                new Ingredient('Bread', 2),
-                new Ingredient('Cheese',1)
-            ]
-        )
-      ];
+    // private recipes: Recipe[] = [
+    //     new Recipe(
+    //         'Ragu',
+    //         'This is a simply recipe',
+    //         'https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg?quality=90&webp=true&resize=300,272',
+    //         [
+    //             new Ingredient('Meat', 1),
+    //             new Ingredient('Vegs', 20)
+    //         ]
+    //     ),
+    //     new Recipe(
+    //         'Sandwiches',
+    //         'This is a simply recipe 2',
+    //         'https://images.immediate.co.uk/production/volatile/sites/30/2024/04/MonteCristoSandwich-7cbdfe9.jpg?quality=90&webp=true&resize=300,272',
+    //         [
+    //             new Ingredient('Ham', 1),
+    //             new Ingredient('Bread', 2),
+    //             new Ingredient('Cheese',1)
+    //         ]
+    //     )
+    //   ];
+    private recipes: Recipe[] = [];
+
 
     constructor(private shoppingListService: ShoppingListService) {  }
+
+    setRecipes(recipes: Recipe[]) {
+        this.recipes = recipes;
+        this.recipesChanged.next(this.recipes.slice());
+    }
 
     getRecipes() {
         return this.recipes.slice();
@@ -52,6 +59,7 @@ export class RecipeService {
 
     updateRecipe(index: number, newRecipe: Recipe) {
         this.recipes[index] = newRecipe;
+        this.recipesChanged.next(this.recipes.slice());
     }
 
     deleteRecipe(index: number) {
