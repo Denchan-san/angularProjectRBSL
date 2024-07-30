@@ -1,9 +1,10 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 
+import { map, tap } from "rxjs";
+
 import { RecipeService } from "../recipes/recipe.service";
 import { Recipe } from "../recipes/recipe.model";
-import { map } from "rxjs";
 
 //need to add if u want to inject service into other serice (httpService -> this service)
 @Injectable({providedIn:'root'}) 
@@ -24,7 +25,7 @@ export class DataStorageService {
     }
     
     fetchRecipes() {
-        this.http
+        return this.http
           .get<Recipe[]>(
             'https://ng-course-recipe-book-df794-default-rtdb.europe-west1.firebasedatabase.app/recipes.json'
           )
@@ -35,11 +36,15 @@ export class DataStorageService {
                    ingredients: recipe.ingredients ? recipe.ingredients : []
                   };
               });
+            }),
+            tap(recipes => {
+              console.log('getting recipes..');
+              this.recipeService.setRecipes(recipes);
             })
-          )
-          .subscribe(recipes => {
-            console.log('getting recipes..');
-            this.recipeService.setRecipes(recipes);
-          });
+          );
+          // .subscribe(recipes => {
+          //   console.log('getting recipes..');
+          //   this.recipeService.setRecipes(recipes);
+          // });
       }
 }
