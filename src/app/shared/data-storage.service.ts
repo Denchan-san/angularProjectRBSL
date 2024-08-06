@@ -1,7 +1,7 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-import { exhaustMap, map, take, tap } from 'rxjs';
+import { map, tap } from 'rxjs';
 
 import { RecipeService } from '../recipes/recipe.service';
 import { Recipe } from '../recipes/recipe.model';
@@ -29,8 +29,6 @@ export class DataStorageService {
   }
 
   fetchRecipes() {
-    //take(1) will unsubscribe
-
     return this.http
       .get<Recipe[]>(
         'https://ng-course-recipe-book-df794-default-rtdb.europe-west1.firebasedatabase.app/recipes.json'
