@@ -1,4 +1,5 @@
 import { Component, Input } from "@angular/core";
+import { Router } from "@angular/router";
 
 @Component({ 
     selector: 'app-alert',
@@ -7,4 +8,12 @@ import { Component, Input } from "@angular/core";
 })
 export class AlertComponent { 
     @Input() message: string;
+
+    constructor(private router: Router){}
+
+    onClose() { 
+        this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+        this.router.onSameUrlNavigation = 'reload';
+        this.router.navigate(['/auth']);
+    }
 }
