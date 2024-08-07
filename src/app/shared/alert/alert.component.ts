@@ -1,4 +1,4 @@
-import { Component, Input } from "@angular/core";
+import { Component, EventEmitter, Input, Output } from "@angular/core";
 import { Router } from "@angular/router";
 
 @Component({ 
@@ -8,12 +8,17 @@ import { Router } from "@angular/router";
 })
 export class AlertComponent { 
     @Input() message: string;
+    @Output() close = new EventEmitter<void>();
 
-    constructor(private router: Router){}
-
-    onClose() { 
-        this.router.routeReuseStrategy.shouldReuseRoute = () => false;
-        this.router.onSameUrlNavigation = 'reload';
-        this.router.navigate(['/auth']);
+    onClose() {
+        this.close.emit();
     }
+
+    // constructor(private router: Router){}
+
+    // onClose() { 
+    //     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+    //     this.router.onSameUrlNavigation = 'reload';
+    //     this.router.navigate(['/auth']);
+    // }
 }
